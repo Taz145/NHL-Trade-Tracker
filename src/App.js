@@ -26,11 +26,16 @@ class App extends Component {
     this.setState({ trades, loading: false })
   };
 
-  onChangehandler = async e => {
-    const { name, value } = e.target
-    this.setState({ [name]: value }, function () {
-      this.search();
-    });
+  // only filters the list when 'Enter' is pressed in any box, removes most typing lag that was there when search was being called live
+  hanldeKeyPress = async e => {
+    if (e.charCode === 13) {
+      const { name, value } = e.target
+      this.setState({
+        [name]: value
+      }, function () {
+        this.search();
+      })
+    }
   }
 
   componentDidMount() {
@@ -63,11 +68,11 @@ class App extends Component {
             </thead>
             <tbody>
               <tr class="text-center">
-                <th><input type="text" name="t1" onChange={e => this.onChangehandler(e)} /></th>
-                <th><input type="text" name="t2" onChange={e => this.onChangehandler(e)} /></th>
-                <th><input type="text" name="t1_a" onChange={e => this.onChangehandler(e)} /></th>
-                <th><input type="text" name="t2_a" onChange={e => this.onChangehandler(e)} /></th>
-                <th><input type="text" name="date" onChange={e => this.onChangehandler(e)} /></th>
+                <th><input type="text" name="t1" onKeyPress={e => this.hanldeKeyPress(e)} /></th>
+                <th><input type="text" name="t2" onKeyPress={e => this.hanldeKeyPress(e)} /></th>
+                <th><input type="text" name="t1_a" onKeyPress={e => this.hanldeKeyPress(e)} /></th>
+                <th><input type="text" name="t2_a" onKeyPress={e => this.hanldeKeyPress(e)} /></th>
+                <th><input type="text" name="date" onKeyPress={e => this.hanldeKeyPress(e)} /></th>
               </tr>
               {this.renderTrades}
             </tbody>
